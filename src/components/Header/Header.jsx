@@ -1,6 +1,7 @@
 'use client'
-import { AppBar, Container, MenuItem, Select, Toolbar, Typography, makeStyles } from "@material-ui/core"
-
+import { CryptoState } from "@/app/context/CryptoContext";
+import { AppBar, Container, MenuItem, Select, ThemeProvider, Toolbar, Typography, createTheme, makeStyles } from "@material-ui/core"
+import { useRouter } from "next/navigation";
 
 const useStyles = makeStyles(() => ({
     title:{
@@ -15,19 +16,36 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Header = () => {
+    const router = useRouter()
     const classes = useStyles();
+   const {currency , setCurrency}= CryptoState()
+    const darkteme = createTheme({
+        palette:{
+            primary:{
+                main:"#fff"
+            },
+            type:"dark"
+        }
+    })
     return (
+        <ThemeProvider theme={darkteme}>
         <AppBar style={{backgroundColor:"#00000098"}} position="static">
             <Container>
                 <Toolbar>
-                    <Typography className={classes.title} variant="h3">
+                    <Typography
+                     onClick={router.push('/')}
+                      className={classes.title}
+                       variant="h5">
                 ارزدیجیتال 
                     </Typography>
-                    <Select variant="outlined"
+                    <Select
+                    value={currency}
+                    onChange={(e)=>setCurrency(e.target.value)} 
+                    variant="outlined"
                     style={{
                         width:100,
                         height:40,
-                        marginLeft:15
+                        marginRight:15
                     }}>
                         <MenuItem value={"USD"}>USD</MenuItem>
                         <MenuItem value={"INR"}>INR</MenuItem>
@@ -35,6 +53,7 @@ const Header = () => {
                 </Toolbar>
             </Container>
         </AppBar>
+        </ThemeProvider>
     );
 };
 

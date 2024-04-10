@@ -5,6 +5,7 @@ import './globals.css'
 import Header from "@/components/Header/Header";
 import { makeStyles } from "@material-ui/core";
 import {metadata} from './metaData'
+import CryptoContext from "./context/CryptoContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +23,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={classes.App}>
+        <CryptoContext>
         <Header/>
         {children}
+        </CryptoContext>
         </body>
     </html>
   );
